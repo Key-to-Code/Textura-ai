@@ -45,7 +45,7 @@ Keyboard Shortcuts: Ctrl+Shift+S for quick summarize, Ctrl+Shift+A for toggle
 
 ## Features
 
-Password Security & User Isolation
+### Password Security & User Isolation
 
 BCrypt Hashing (Strength 12): Every user password is securely hashed using BCrypt with 2¹² iterations, ensuring maximum resistance against brute-force and rainbow table attacks.
 
@@ -55,7 +55,8 @@ Session Management: Advanced token-based authentication manages sessions seamles
 
 Input Validation: Comprehensive protection against XSS, SQL injection, and other malicious inputs ensures data integrity and application security at every interaction.
 
-Advanced Data Management
+
+### Advanced Data Management
 
 Personal Library: Every processed summary is automatically saved to your account, creating a persistent, organized repository of your content.
 
@@ -69,7 +70,7 @@ Analytics Dashboard: Gain actionable insights through personal statistics, track
 
 Batch Operations: Perform bulk actions on multiple summaries simultaneously, streamlining workflow and enhancing efficiency.
 
-User Experience & Interface
+### User Experience & Interface
 
 Responsive Design: Fully optimized for all devices and browsers, providing a smooth experience whether on desktop, tablet, or mobile.
 
