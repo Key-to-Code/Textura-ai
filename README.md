@@ -48,27 +48,41 @@ Keyboard Shortcuts: Ctrl+Shift+S for quick summarize, Ctrl+Shift+A for toggle
 Password Security & User Isolation
 
 BCrypt Hashing (Strength 12): Every user password is securely hashed using BCrypt with 2¹² iterations, ensuring maximum resistance against brute-force and rainbow table attacks.
+
 User Isolation: Each account operates in complete isolation, guaranteeing that personal data and content remain fully segregated. Coupled with role-based access control, this ensures only authorized users can perform sensitive operations.
+
 Session Management: Advanced token-based authentication manages sessions seamlessly, with automatic token refresh to prevent timeouts and a secure logout mechanism to safeguard user data.
+
 Input Validation: Comprehensive protection against XSS, SQL injection, and other malicious inputs ensures data integrity and application security at every interaction.
 
 Advanced Data Management
 
 Personal Library: Every processed summary is automatically saved to your account, creating a persistent, organized repository of your content.
+
 Smart Search: Powerful full-text search across all summaries, featuring keyword highlighting for quick identification of relevant content.
+
 Advanced Filtering: Effortlessly filter data by operation type, date range, or source URL, giving users granular control over their content.
+
 Export Options: Copy summaries directly to the clipboard or export in various formats for seamless integration with other tools.
+
 Analytics Dashboard: Gain actionable insights through personal statistics, tracking trends in processing activity, popular operations, and usage patterns.
+
 Batch Operations: Perform bulk actions on multiple summaries simultaneously, streamlining workflow and enhancing efficiency.
 
 User Experience & Interface
 
 Responsive Design: Fully optimized for all devices and browsers, providing a smooth experience whether on desktop, tablet, or mobile.
+
 Dark Mode Support: Automatic theme detection and manual toggle for comfortable viewing in any lighting condition.
+
 Accessibility: Designed with ARIA labels, full keyboard navigation, and screen reader compatibility to ensure inclusivity for all users.
+
 Multi-language UI: Supports 10+ languages, allowing users to operate the extension in their preferred language.
+
 Customizable Settings: Tailor processing delays, default operations, and other preferences to match individual workflow needs.
+
 Offline Mode: Core functionality remains available even without an internet connection, ensuring productivity anytime, anywhere.
+
 ## Development Setup
 
 # Backend
