@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Textura</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <span class="icon">🤖</span>
+                <h1>Textura</h1>
+            </div>
+            <div id="connectionStatus" class="connection-status">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Checking...</span>
+            </div>
+        </div>
+
+        <div id="authSection" class="auth-section">
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="loginTabBtn">Login</button>
+                <button class="tab-btn" id="registerTabBtn">Register</button>
+            </div>
+
+            <div id="loginTab" class="tab-content active">
+                <div class="form-group">
+                    <input type="text" id="loginUsername" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                <button class="btn btn-primary" id="loginBtn">
+                    <span id="loginSpinner" class="spinner hidden"></span>
+                    Login
+                </button>
+                <div id="loginMessage" class="message"></div>
+            </div>
+
+            <div id="registerTab" class="tab-content">
+                <div class="form-group">
+                    <input type="text" id="regUsername" placeholder="Username (3+ chars)" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="regEmail" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" placeholder="Password (8+ chars, mixed)" required>
+                </div>
+                <button class="btn btn-success" id="registerBtn">
+                    <span id="registerSpinner" class="spinner hidden"></span>
+                    Register
+                </button>
+                <div id="registerMessage" class="message"></div>
+            </div>
+        </div>
+
+        <div id="mainContent" class="main-content hidden">
+            <div class="user-info">
+                <div id="userWelcome"></div>
+                <button class="btn-link logout-btn" id="logoutBtn">Logout</button>
+
+            </div>
+
+            <div class="main-layout">
+                <!-- Main Processing Area (70%) -->
+                <div class="main-area">
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h3>📝 Select Content</h3>
+                            <button class="btn btn-secondary btn-small" id="getSelectedTextBtn">Get Selected Text</button>
+                        </div>
+
+                        <div class="content-options">
+                            <button class="btn btn-outline" id="getPageContentBtn">Full Page</button>
+                            <button class="btn btn-outline" id="getVisibleContentBtn">Visible Content</button>
+                            <button class="btn btn-outline" id="clearContentBtn">Clear</button>
+                        </div>
+
+                        <textarea id="contentInput" placeholder="Select content from page or paste text here..." rows="6"></textarea>
+                    </div>
+
+                    <div class="processing-section">
+                        <div class="section-header">
+                            <h3>⚡ Process Content</h3>
+                        </div>
+
+                        <div class="form-group">
+                            <select id="operation">
+                                <option value="summarize-short">📋 Short Summary</option>
+                                <option value="summarize-detailed">📄 Detailed Summary</option>
+                                <option value="extract-takeaways">💡 Key Takeaways</option>
+                                <option value="rephrase">✏️ Rephrase</option>
+                                <option value="translate">🌍 Translate</option>
+                                <option value="to-json">📊 Convert to JSON</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group hidden" id="translateOptions">
+                            <select id="targetLanguage">
+                                <option value="Spanish">Spanish</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                                <option value="Italian">Italian</option>
+                                <option value="Portuguese">Portuguese</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Arabic">Arabic</option>
+                                <option value="Russian">Russian</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group hidden" id="rephraseOptions">
+                            <select id="rephraseTone">
+                                <option value="professional">Professional</option>
+                                <option value="easy">Easy/Simple</option>
+                                <option value="student-notes">Student Notes</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary" id="processContentBtn">
+                            <span id="processSpinner" class="spinner hidden"></span>
+                            Process Content
+                        </button>
+                    </div>
+
+                    <div id="resultsSection" class="results-section hidden">
+                        <div class="section-header">
+                            <h3>✨ Result</h3>
+                            <div class="result-actions">
+                                <button class="btn btn-secondary btn-small" id="copyResultBtn">📋 Copy</button>
+                                <button class="btn btn-secondary btn-small" id="downloadResultBtn">💾 Download</button>
+                            </div>
+                        </div>
+                        <div id="resultContent" class="result-content"></div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <button class="btn btn-outline btn-small" id="openSettingsBtn">⚙️ Settings</button>
+                    </div>
+                </div>
+
+                <!-- Summaries Sidebar (30%) -->
+                <div class="summaries-sidebar">
+                    <div class="sidebar-header">
+                        <h3>📚 Past Results</h3>
+                        <button class="btn btn-secondary btn-small" id="clearHistoryBtn">Clear</button>
+                    </div>
+                    <div id="summariesList" class="summaries-list">
+                        <div id="noSummariesMessage" class="no-summaries-message">
+                            No results yet. Process some content to see history here!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="spinner-large"></div>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
