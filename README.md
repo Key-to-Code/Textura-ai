@@ -82,9 +82,9 @@ Offline Mode: Basic functionality available without internet connection
     cd extension
 
 #Load unpacked extension in Chrome
-## Chrome Extension
+# Chrome Extension
 
-# Install extension files
+## Install extension files
 extension/
 
 ├── manifest.json
