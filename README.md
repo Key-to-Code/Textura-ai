@@ -450,15 +450,15 @@ Expected Response:
 
 ## Demo
 
-![Register](textura1.png)
+![Register](images/textura1.png)
 
-![Login](textura2.png)
+![Login](images/textura2.png)
 
-![Content Process](textura3.png)
+![Content Process](images/textura3.png)
 
-![Operations](textura4.png)
+![Operations](images/textura4.png)
 
-![Processed Content](textura5.png)
+![Processed Content](images/textura5.png)
 
 
 
