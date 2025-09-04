@@ -74,8 +74,6 @@ Batch Operations: Perform bulk actions on multiple summaries simultaneously, str
 
 Responsive Design: Fully optimized for all devices and browsers, providing a smooth experience whether on desktop, tablet, or mobile.
 
-Dark Mode Support: Automatic theme detection and manual toggle for comfortable viewing in any lighting condition.
-
 Accessibility: Designed with ARIA labels, full keyboard navigation, and screen reader compatibility to ensure inclusivity for all users.
 
 Multi-language UI: Supports 10+ languages, allowing users to operate the extension in their preferred language.
