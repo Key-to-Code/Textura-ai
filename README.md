@@ -439,6 +439,7 @@ Expected Response:
 
 10. Delete Summary (Requires Authentication)
 DELETE http://localhost:8080/api/summaries/1
+
 | Parameter | Type   | Description          |
 | --------- | ------ | -------------------- |
 | id        | Number | Summary ID to delete |
