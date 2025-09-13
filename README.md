@@ -132,7 +132,7 @@ extension/
 
 
 1. Login User
-POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAOf9KK_m-jvliHxJ0MjC8ZUfHn1-LCs54
+POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=GEMINI_kEY
 
 | Parameter | Type   | Description            |
 | --------- | ------ | ---------------------- |
