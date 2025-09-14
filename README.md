@@ -467,15 +467,27 @@ Expected Response:
 
 ## Demo
 
-![Register](images/textura1.png)
+![Register](images/textura_1.png)
 
-![Login](images/textura2.png)
+![Login](images/textura_2.png)
 
-![Content Process](images/textura3.png)
+![UI-front_end](images/textura_3.png)
 
-![Operations](images/textura4.png)
+![Text-Processing](images/textura_4.png)
 
-![Processed Content](images/textura5.png)
+![Operation-Translate](images/textura_5.png)
+
+![Translate_Result](images/textura_6.png)
+
+![Operation-Rephrase](images/textura_7.png)
+
+![Rephrase- Result](images/textura_8.png)
+
+![History of Operations](images/textura_9.png)
+
+![Clear all history](images/textura_10.png)
+
+
 
 
 
