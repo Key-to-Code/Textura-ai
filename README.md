@@ -30,7 +30,6 @@ Backend: Spring Boot 3.5.4 with enterprise security patterns
 Database: MySQL with optimized schemas and indexing
 AI Integration: Google Gemini API for natural language processing
 Security: JWT authentication, BCrypt hashing, account protection
-Deployment: Production-ready with Docker support and CI/CD
 
 ✨ Features
 
@@ -44,27 +43,44 @@ Keyboard Shortcuts: Ctrl+Shift+S for quick summarize, Ctrl+Shift+A for toggle
 
 
 ## Features
-Password Security: BCrypt hashing with strength 12 (2^12 iterations)
-User Isolation: Complete data separation with role-based access control
-Session Management: Automatic token refresh and secure logout
-Input Validation: Comprehensive XSS and SQL injection protection
 
- Advanced Data Management
+### Password Security & User Isolation
 
-Personal Library: All processed content automatically saved to user account
-Smart Search: Full-text search across summaries with keyword highlighting
-Advanced Filtering: Filter by operation type, date range, source URL
-Export Options: Copy to clipboard, Analytics: Personal statistics dashboard with processing trends
-Batch Operations: Select multiple summaries for bulk actions
+BCrypt Hashing (Strength 12): Every user password is securely hashed using BCrypt with 2¹² iterations, ensuring maximum resistance against brute-force and rainbow table attacks.
 
- User Experience
+User Isolation: Each account operates in complete isolation, guaranteeing that personal data and content remain fully segregated. Coupled with role-based access control, this ensures only authorized users can perform sensitive operations.
 
-Responsive Design: Optimized for all screen sizes and browsers
-Dark Mode Support: Automatic theme detection and manual toggle
-Accessibility: ARIA labels, keyboard navigation, screen reader support
-Multi-language UI: Extension interface in 10+ languages
-Customizable Settings: Adjustable processing delays, default operations
-Offline Mode: Basic functionality available without internet connection
+Session Management: Advanced token-based authentication manages sessions seamlessly, with automatic token refresh to prevent timeouts and a secure logout mechanism to safeguard user data.
+
+Input Validation: Comprehensive protection against XSS, SQL injection, and other malicious inputs ensures data integrity and application security at every interaction.
+
+
+### Advanced Data Management
+
+Personal Library: Every processed summary is automatically saved to your account, creating a persistent, organized repository of your content.
+
+Smart Search: Powerful full-text search across all summaries, featuring keyword highlighting for quick identification of relevant content.
+
+Advanced Filtering: Effortlessly filter data by operation type, date range, or source URL, giving users granular control over their content.
+
+Export Options: Copy summaries directly to the clipboard or export in various formats for seamless integration with other tools.
+
+Analytics Dashboard: Gain actionable insights through personal statistics, tracking trends in processing activity, popular operations, and usage patterns.
+
+Batch Operations: Perform bulk actions on multiple summaries simultaneously, streamlining workflow and enhancing efficiency.
+
+### User Experience & Interface
+
+Responsive Design: Fully optimized for all devices and browsers, providing a smooth experience whether on desktop, tablet, or mobile.
+
+Accessibility: Designed with ARIA labels, full keyboard navigation, and screen reader compatibility to ensure inclusivity for all users.
+
+Multi-language UI: Supports 10+ languages, allowing users to operate the extension in their preferred language.
+
+Customizable Settings: Tailor processing delays, default operations, and other preferences to match individual workflow needs.
+
+Offline Mode: Core functionality remains available even without an internet connection, ensuring productivity anytime, anywhere.
+
 ## Development Setup
 
 # Backend
@@ -116,7 +132,7 @@ extension/
 
 
 1. Login User
-POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAOf9KK_m-jvliHxJ0MjC8ZUfHn1-LCs54
+POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=GEMINI_kEY
 
 | Parameter | Type   | Description            |
 | --------- | ------ | ---------------------- |
@@ -423,6 +439,7 @@ Expected Response:
 
 10. Delete Summary (Requires Authentication)
 DELETE http://localhost:8080/api/summaries/1
+
 | Parameter | Type   | Description          |
 | --------- | ------ | -------------------- |
 | id        | Number | Summary ID to delete |
