@@ -41,6 +41,29 @@ Real-Time Processing: Get AI results in under 3 seconds with visual feedback
 Floating UI: Non-intrusive tooltip and result popups that adapt to page layout
 Keyboard Shortcuts: Ctrl+Shift+S for quick summarize, Ctrl+Shift+A for toggle
 
+## About
+
+![Register](images/textura_1.png)
+
+![Login](images/textura_2.png)
+
+![UI-front_end](images/textura_3.png)
+
+![Text-Processing](images/textura_4.png)
+
+![Operation-Translate](images/textura_5.png)
+
+![Translate_Result](images/textura_6.png)
+
+![Operation-Rephrase](images/textura_7.png)
+
+![Rephrase- Result](images/textura_8.png)
+
+![History of Operations](images/textura_9.png)
+
+![Clear all history](images/textura_10.png)
+
+
 
 ## Features
 
@@ -465,27 +488,6 @@ Expected Response:
 - [@Key-to-Code](https://www.github.com/Key-to-Code)
 
 
-## Demo
-
-![Register](images/textura_1.png)
-
-![Login](images/textura_2.png)
-
-![UI-front_end](images/textura_3.png)
-
-![Text-Processing](images/textura_4.png)
-
-![Operation-Translate](images/textura_5.png)
-
-![Translate_Result](images/textura_6.png)
-
-![Operation-Rephrase](images/textura_7.png)
-
-![Rephrase- Result](images/textura_8.png)
-
-![History of Operations](images/textura_9.png)
-
-![Clear all history](images/textura_10.png)
 
 
 
