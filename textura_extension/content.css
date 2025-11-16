@@ -1,4 +1,4 @@
-/* AI Auto-Processor Styles */
+/* AI Auto-Processor Styles - FIXED VERSION */
 
 /* Tooltip Styles */
 .ai-tooltip {
@@ -104,7 +104,7 @@
     gap: 8px;
 }
 
-.btn-process, .btn-toggle {
+.btn-process {
     flex: 1;
     padding: 8px 12px;
     border: none;
@@ -117,9 +117,6 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
-}
-
-.btn-process {
     background: linear-gradient(135deg, #27ae60, #229954);
     color: white;
 }
@@ -127,16 +124,6 @@
 .btn-process:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
-}
-
-.btn-toggle {
-    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
-    color: white;
-}
-
-.btn-toggle:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
 }
 
 .process-spinner {
@@ -245,40 +232,7 @@
     text-transform: uppercase;
 }
 
-/* Toggle Button Styles */
-.ai-toggle-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
-    border-radius: 25px;
-    padding: 12px 20px;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(52, 152, 219, 0.3);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    user-select: none;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.ai-toggle-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(52, 152, 219, 0.4);
-}
-
-.toggle-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.toggle-icon {
-    font-size: 16px;
-}
+/* REMOVED: Toggle Button Styles - No longer needed */
 
 /* Notification Styles */
 .ai-notification {
@@ -363,16 +317,6 @@
     .ai-result-popup {
         width: 320px;
         max-height: 400px;
-    }
-    
-    .ai-toggle-button {
-        bottom: 80px;
-        right: 15px;
-        padding: 10px 16px;
-    }
-    
-    .toggle-content {
-        font-size: 12px;
     }
     
     .ai-notification {

@@ -1,13 +1,14 @@
-// Auto-Processing Content Script
+// Auto-Processing Content Script - FIXED VERSION
 class AutoProcessor {
     constructor() {
-        this.isEnabled = true;
+        this.isEnabled = false; // Changed to false by default
         this.defaultOperation = 'summarize-short';
         this.selectedText = '';
         this.isProcessing = false;
         this.debounceTimer = null;
         this.tooltip = null;
         this.resultPopup = null;
+        this.toggleButton = null;
         this.authToken = null;
         this.API_BASE = 'http://localhost:8080/api';
         this.minTextLength = 10;
@@ -21,10 +22,12 @@ class AutoProcessor {
         await this.loadSettings();
         // Set up event listeners
         this.setupEventListeners();
-        // Create UI elements
-        this.createTooltip();
-        this.createResultPopup();
-        this.createToggleButton();
+        // Only create UI elements if explicitly enabled
+        if (this.isEnabled) {
+            this.createTooltip();
+            this.createResultPopup();
+        }
+        // Remove the toggle button creation - no longer needed
         console.log('AI Auto-Processor initialized', {
             enabled: this.isEnabled,
             operation: this.defaultOperation
@@ -39,21 +42,17 @@ class AutoProcessor {
             'minTextLength',
             'autoProcessDelay'
         ]);
-        this.isEnabled = result.autoProcessEnabled !== false; // Default to true
+        this.isEnabled = result.autoProcessEnabled === true; // Only enable if explicitly set
         this.defaultOperation = result.defaultOperation || 'summarize-short';
         this.authToken = result.authToken;
         this.minTextLength = result.minTextLength || 10;
         this.autoProcessDelay = result.autoProcessDelay || 1000;
-        // 1 second delay
     }
 
     setupEventListeners() {
-        // Text selection events
-        document.addEventListener('mouseup', (e) => this.handleTextSelection(e));
-        document.addEventListener('keyup', (e) => this.handleKeySelection(e));
-
-        // Double-click for quick processing
-        document.addEventListener('dblclick', (e) => this.handleDoubleClick(e));
+        // REMOVED automatic text selection listeners to prevent unwanted popups
+        // Users must now use context menu or popup to process text
+        
         // Messages from background script
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             if (request.action === 'toggleAutoProcess') {
@@ -62,86 +61,15 @@ class AutoProcessor {
             } else if (request.action === 'processSelection') {
                 this.processCurrentSelection();
                 sendResponse({ success: true });
+            } else if (request.action === 'processWithOperation') {
+                // Handle context menu processing
+                this.selectedText = request.text;
+                this.defaultOperation = request.operation;
+                this.autoProcessText(request.text);
+                sendResponse({ success: true });
             }
+            return true;
         });
-        // Hide tooltip when clicking elsewhere
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.ai-tooltip') && !e.target.closest('.ai-result-popup')) {
-                this.hideTooltip();
-            }
-        });
-    }
-
-    handleTextSelection(e) {
-        // Clear existing timer
-        if (this.debounceTimer) {
-            clearTimeout(this.debounceTimer);
-        }
-
-        // Debounce text selection to avoid excessive processing
-        this.debounceTimer = setTimeout(() => {
-            const selection = window.getSelection();
-            const selectedText = selection.toString().trim();
-
-            if (selectedText && selectedText.length >= this.minTextLength) {
-                this.selectedText = selectedText.substring(0, this.maxTextLength);
-                this.showTooltip(e.clientX, e.clientY, selectedText);
-
-                // Auto-process if enabled
-                if (this.isEnabled && this.authToken) {
-                    this.autoProcessText(selectedText);
-                }
-            } else {
-                this.hideTooltip();
-            }
-        }, 300);
-        // Wait 300ms after selection stops
-    }
-
-    handleKeySelection(e) {
-        // Handle keyboard text selection (Ctrl+A, Shift+Arrow keys, etc.)
-        if (e.ctrlKey || e.shiftKey) {
-            this.handleTextSelection(e);
-        }
-    }
-
-    handleDoubleClick(e) {
-        // Get word or sentence around double-clicked position
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            this.expandSelection(range);
-            const text = selection.toString().trim();
-
-            if (text && text.length >= this.minTextLength) {
-                this.selectedText = text;
-                this.showTooltip(e.clientX, e.clientY, text);
-
-                if (this.isEnabled && this.authToken) {
-                    this.autoProcessText(text);
-                }
-            }
-        }
-    }
-
-    expandSelection(range) {
-        // Expand selection to include full sentences
-        const text = range.commonAncestorContainer.textContent;
-        const start = range.startOffset;
-        const end = range.endOffset;
-
-        // Find sentence boundaries
-        let sentenceStart = text.lastIndexOf('.', start - 1) + 1;
-        let sentenceEnd = text.indexOf('.', end);
-
-        if (sentenceStart < 0) sentenceStart = 0;
-        if (sentenceEnd < 0) sentenceEnd = text.length;
-        // Expand the range
-        range.setStart(range.commonAncestorContainer, sentenceStart);
-        range.setEnd(range.commonAncestorContainer, sentenceEnd);
-
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
     }
 
     async autoProcessText(text) {
@@ -150,7 +78,6 @@ class AutoProcessor {
         }
 
         this.isProcessing = true;
-        this.showProcessingState();
         try {
             const result = await this.processWithAPI(text, this.defaultOperation);
             this.showResult(result);
@@ -161,7 +88,6 @@ class AutoProcessor {
             this.showNotification('❌ Processing failed: ' + error.message);
         } finally {
             this.isProcessing = false;
-            this.hideProcessingState();
         }
     }
 
@@ -173,7 +99,7 @@ class AutoProcessor {
             sessionId: `auto-${Date.now()}`,
             userAgent: navigator.userAgent
         };
-        // Add operation-specific parameters
+
         if (operation === 'translate') {
             requestBody.targetLanguage = 'Spanish';
         } else if (operation === 'rephrase') {
@@ -188,6 +114,7 @@ class AutoProcessor {
             },
             body: JSON.stringify(requestBody)
         });
+
         if (!response.ok) {
             if (response.status === 401) {
                 throw new Error('Please login to use auto-processing');
@@ -203,6 +130,9 @@ class AutoProcessor {
     }
 
     createTooltip() {
+        // Only create if doesn't exist and auto-process is enabled
+        if (this.tooltip || !this.isEnabled) return;
+        
         this.tooltip = document.createElement('div');
         this.tooltip.className = 'ai-tooltip hidden';
         this.tooltip.innerHTML = `
@@ -229,24 +159,21 @@ class AutoProcessor {
                             <span class="process-spinner hidden">⏳</span>
                             Process Now
                         </button>
-                        <button class="btn-toggle">
-                            <span id="toggleText">${this.isEnabled ?
-                            '🔴 Disable Auto' : '🟢 Enable Auto'}</span>
-                        </button>
                     </div>
                 </div>
             </div>
         `;
         document.body.appendChild(this.tooltip);
 
-        // Add event listeners after element is in the DOM
         this.tooltip.querySelector('.tooltip-close').addEventListener('click', () => this.hideTooltip());
         this.tooltip.querySelector('#operationSelect').addEventListener('change', (e) => this.changeOperation(e.target.value));
         this.tooltip.querySelector('.btn-process').addEventListener('click', () => this.processCurrentSelection());
-        this.tooltip.querySelector('.btn-toggle').addEventListener('click', () => this.toggleAutoProcess());
     }
 
     createResultPopup() {
+        // Only create if doesn't exist
+        if (this.resultPopup) return;
+        
         this.resultPopup = document.createElement('div');
         this.resultPopup.className = 'ai-result-popup hidden';
         this.resultPopup.innerHTML = `
@@ -269,42 +196,9 @@ class AutoProcessor {
         `;
         document.body.appendChild(this.resultPopup);
 
-        // Add event listeners after element is in the DOM
         this.resultPopup.querySelector('.btn-copy').addEventListener('click', () => this.copyResult());
         this.resultPopup.querySelector('.btn-save').addEventListener('click', () => this.saveResult());
         this.resultPopup.querySelector('.btn-close').addEventListener('click', () => this.hideResult());
-    }
-
-    createToggleButton() {
-        this.toggleButton = document.createElement('div');
-        this.toggleButton.className = 'ai-toggle-button';
-        this.toggleButton.innerHTML = `
-            <div class="toggle-content">
-                <span class="toggle-icon">${this.isEnabled ?
-                    '🔴' : '🟢'}</span>
-                <span class="toggle-text">${this.isEnabled ?
-                    'Auto ON' : 'Auto OFF'}</span>
-            </div>
-        `;
-        document.body.appendChild(this.toggleButton);
-
-        // Add event listener after element is in the DOM
-        this.toggleButton.querySelector('.toggle-content').addEventListener('click', () => this.toggleAutoProcess());
-    }
-
-    showTooltip(x, y, text) {
-        if (!this.tooltip) return;
-        const preview = this.tooltip.querySelector('#selectedPreview');
-        const operationSelect = this.tooltip.querySelector('#operationSelect');
-
-        preview.textContent = text.length > 100 ? text.substring(0, 100) + '...' : text;
-        operationSelect.value = this.defaultOperation;
-
-        // Position tooltip
-        this.tooltip.style.left = Math.min(x, window.innerWidth - 320) + 'px';
-        this.tooltip.style.top = Math.min(y + 20, window.innerHeight - 200) + 'px';
-
-        this.tooltip.classList.remove('hidden');
     }
 
     hideTooltip() {
@@ -314,7 +208,10 @@ class AutoProcessor {
     }
 
     showResult(content) {
-        if (!this.resultPopup) return;
+        if (!this.resultPopup) {
+            this.createResultPopup();
+        }
+        
         const resultBody = this.resultPopup.querySelector('#resultBody');
         const resultOperation = this.resultPopup.querySelector('#resultOperation');
         const resultTimestamp = this.resultPopup.querySelector('#resultTimestamp');
@@ -323,17 +220,11 @@ class AutoProcessor {
         resultOperation.textContent = this.defaultOperation.replace('-', ' ').toUpperCase();
         resultTimestamp.textContent = new Date().toLocaleTimeString();
 
-        // Position result popup
-        const tooltip = this.tooltip;
-        if (tooltip && !tooltip.classList.contains('hidden')) {
-            const tooltipRect = tooltip.getBoundingClientRect();
-            this.resultPopup.style.left = (tooltipRect.right + 10) + 'px';
-            this.resultPopup.style.top = tooltipRect.top + 'px';
-        } else {
-            this.resultPopup.style.left = '50%';
-            this.resultPopup.style.top = '20px';
-            this.resultPopup.style.transform = 'translateX(-50%)';
-        }
+        // Position result popup in center of screen
+        this.resultPopup.style.left = '50%';
+        this.resultPopup.style.top = '50%';
+        this.resultPopup.style.transform = 'translate(-50%, -50%)';
+        
         this.resultPopup.classList.remove('hidden');
         this.currentResult = content;
     }
@@ -348,53 +239,38 @@ class AutoProcessor {
         this.showNotification('❌ Error: ' + message, 'error');
     }
 
-    showProcessingState() {
-        const spinner = this.tooltip?.querySelector('.process-spinner');
-        if (spinner) {
-            spinner.classList.remove('hidden');
-        }
-    }
-
-    hideProcessingState() {
-        const spinner = this.tooltip?.querySelector('.process-spinner');
-        if (spinner) {
-            spinner.classList.add('hidden');
-        }
-    }
-
     showNotification(message, type = 'info') {
-        // Create temporary notification
         const notification = document.createElement('div');
         notification.className = `ai-notification ${type}`;
         notification.textContent = message;
         document.body.appendChild(notification);
 
-        // Auto-remove after 3 seconds
         setTimeout(() => {
             notification.remove();
         }, 3000);
     }
 
-    // User Actions
     toggleAutoProcess() {
         this.isEnabled = !this.isEnabled;
-        // Update storage
         chrome.storage.local.set({ autoProcessEnabled: this.isEnabled });
-        // Update UI
-        const toggleText = this.tooltip?.querySelector('#toggleText');
-        if (toggleText) {
-            toggleText.textContent = this.isEnabled ?
-                '🔴 Disable Auto' : '🟢 Enable Auto';
+        
+        // Create or remove UI elements based on state
+        if (this.isEnabled) {
+            if (!this.tooltip) this.createTooltip();
+            if (!this.resultPopup) this.createResultPopup();
+        } else {
+            // Clean up UI elements
+            if (this.tooltip) {
+                this.tooltip.remove();
+                this.tooltip = null;
+            }
         }
 
-        const toggleButton = this.toggleButton?.querySelector('.toggle-icon');
-        const toggleButtonText = this.toggleButton?.querySelector('.toggle-text');
-        if (toggleButton && toggleButtonText) {
-            toggleButton.textContent = this.isEnabled ? '🔴' : '🟢';
-            toggleButtonText.textContent = this.isEnabled ? 'Auto ON' : 'Auto OFF';
-        }
-
-        this.showNotification(this.isEnabled ? '🟢 Auto-processing enabled' : '🔴 Auto-processing disabled');
+        this.showNotification(
+            this.isEnabled ? 
+            '🟢 Auto-processing enabled' : 
+            '🔴 Auto-processing disabled'
+        );
     }
 
     changeOperation(operation) {
