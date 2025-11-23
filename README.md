@@ -27,7 +27,7 @@ Technical Highlights
 
 Frontend: Chrome Extension (Manifest V3) with modern JavaScript
 Backend: Spring Boot 3.5.4 with enterprise security patterns
-Database: MySQL with optimized schemas and indexing
+Database: PostGreSQL with optimized schemas and indexing
 AI Integration: Google Gemini API for natural language processing
 Security: JWT authentication, BCrypt hashing, account protection
 Docker: Containerized and packaged the complete backend service with Docker, leveraging best-practice image layering, reproducible builds, and deploy-ready configurations for cloud environments.
@@ -69,7 +69,7 @@ Keyboard Shortcuts: Ctrl+Shift+S for quick summarize, Ctrl+Shift+A for toggle
 
 ### Password Security & User Isolation
 
-BCrypt Hashing (Strength 12): Every user password is securely hashed using BCrypt with 2¹² iterations, ensuring maximum resistance against brute-force and rainbow table attacks.
+BCrypt Hashing (Strength 12): Every user password is securely hashed using BCrypt with 2 ¹² iterations, ensuring maximum resistance against brute-force and rainbow table attacks.
 
 User Isolation: Each account operates in complete isolation, guaranteeing that personal data and content remain fully segregated. Coupled with role-based access control, this ensures only authorized users can perform sensitive operations.
 
@@ -97,7 +97,7 @@ Batch Operations: Perform bulk actions on multiple summaries simultaneously, str
 
 Responsive Design: Fully optimized for all devices and browsers, providing a smooth experience whether on desktop, tablet, or mobile.
 
-Accessibility: Designed with ARIA labels, full keyboard navigation, and screen reader compatibility to ensure inclusivity for all users.
+Accessibility: Designed with full keyboard navigation, and screen reader compatibility to ensure inclusivity for all users.
 
 Multi-language UI: Supports 10+ languages, allowing users to operate the extension in their preferred language.
 
@@ -121,7 +121,7 @@ Offline Mode: Core functionality remains available even without an internet conn
 ## Chrome Extension
 
 ## Install extension files
-extension/
+frontend/
 
 ├── manifest.json
 
@@ -571,51 +571,6 @@ Backend/
 
       └──   JwtAuthenticationFilter.java
     
-## Database Schema
-
--- Users table with security features
-
-    CREATE TABLE users (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL, -- BCrypt hashed
-    is_enabled BOOLEAN DEFAULT TRUE,
-    is_account_non_expired BOOLEAN DEFAULT TRUE,
-    is_account_non_locked BOOLEAN DEFAULT TRUE,
-    is_credentials_non_expired BOOLEAN DEFAULT TRUE,
-    failed_login_attempts INT DEFAULT 0,
-    account_locked_until TIMESTAMP NULL,
-    last_login TIMESTAMP NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    INDEX idx_username (username),
-    INDEX idx_email (email),
-    INDEX idx_created_at (created_at));
-
--- Summaries table with full-text search
-
-
-
-    CREATE TABLE summaries 
-    (id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    original_content TEXT NOT NULL,
-    processed_content TEXT NOT NULL,
-    operation VARCHAR(50) NOT NULL,
-    target_language VARCHAR(50),
-    rephrase_tone VARCHAR(50),
-    source_url TEXT,
-    user_agent TEXT,
-    session_id VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    INDEX idx_user_id (user_id),
-    INDEX idx_operation (operation),
-    INDEX idx_created_at (created_at),
-    FULLTEXT idx_content_search (original_content, processed_content);
 
 
 ## Acknowledgements
