@@ -110,17 +110,12 @@ Offline Mode: Core functionality remains available even without an internet conn
 
 # Backend
 
-    git clone https://github.com/Key-to-Code/textura-ai.git
-
-    cd textura-ai
-
-    mvn clean install
-
+    docker run -p 8080:8080 keytocode/textura:latest
 
 
 #FrontEnd
 
-    cd extension
+    cd frontend
 
 #Load unpacked extension in Chrome
 # Chrome Extension
