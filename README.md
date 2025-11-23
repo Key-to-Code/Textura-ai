@@ -108,7 +108,7 @@ Offline Mode: Core functionality remains available even without an internet conn
 
 ## Development Setup
 
-# Backend
+### Backend
 
     docker run -p 8080:8080 keytocode/textura:latest
 
@@ -118,7 +118,7 @@ Offline Mode: Core functionality remains available even without an internet conn
     cd frontend
 
 #Load unpacked extension in Chrome
-# Chrome Extension
+## Chrome Extension
 
 ## Install extension files
 extension/
