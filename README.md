@@ -568,8 +568,7 @@ Backend/
 │   └── JwtUtils.java
 
 └── 📂 filter/           # Security filters
-
-      └──   JwtAuthenticationFilter.java
+    └──   JwtAuthenticationFilter.java
     
 
 
