@@ -117,7 +117,6 @@ Offline Mode: Core functionality remains available even without an internet conn
     cd frontend
 
 
-### Load unpacked extension in Chrome
 ## Chrome Extension
 
 ## Install extension files
