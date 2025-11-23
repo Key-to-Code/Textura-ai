@@ -34,8 +34,7 @@ Docker: Containerized and packaged the complete backend service with Docker, lev
 
 ✨ Features
 
-    Intelligent Text Processing
-
+Intelligent Text Processing
 Auto-Detection: Simply select text on any webpage - no clicks needed
 Smart Selection: Double-click to auto-expand to full sentences and paragraphs
 Real-Time Processing: Get AI results in under 3 seconds with visual feedback
@@ -113,11 +112,12 @@ Offline Mode: Core functionality remains available even without an internet conn
     docker run -p 8080:8080 keytocode/textura:latest
 
 
-#FrontEnd
+## FrontEnd
 
     cd frontend
 
-#Load unpacked extension in Chrome
+
+### Load unpacked extension in Chrome
 ## Chrome Extension
 
 ## Install extension files
@@ -146,7 +146,6 @@ extension/
 3. Click "Load unpacked"
 
 4. Select extension folder
-## API Reference
 
 #### SETUP IN POSTMAN
 
@@ -625,4 +624,8 @@ Backend/
  - [Postman](https://www.postman.com/)
  - [Spring boot](https://spring.io/projects/spring-boot)
  - [Intellij](https://www.jetbrains.com/idea/)
+ - [DockerDestop](https://www.docker.com/products/docker-desktop/)
+
+## License
+MIT License
 
