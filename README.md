@@ -30,6 +30,7 @@ Backend: Spring Boot 3.5.4 with enterprise security patterns
 Database: MySQL with optimized schemas and indexing
 AI Integration: Google Gemini API for natural language processing
 Security: JWT authentication, BCrypt hashing, account protection
+Docker: Containerized the backend application using industry-standard Docker practices, creating a production-ready image with an optimized Dockerfile and multi-tag support.
 
 ✨ Features
 
@@ -76,6 +77,7 @@ User Isolation: Each account operates in complete isolation, guaranteeing that p
 Session Management: Advanced token-based authentication manages sessions seamlessly, with automatic token refresh to prevent timeouts and a secure logout mechanism to safeguard user data.
 
 Input Validation: Comprehensive protection against XSS, SQL injection, and other malicious inputs ensures data integrity and application security at every interaction.
+
 
 
 ### Advanced Data Management
